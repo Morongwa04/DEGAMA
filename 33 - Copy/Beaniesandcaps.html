@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Beanies & Caps — DEGAMA 33</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;600;700&display=swap"
+        rel="stylesheet" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --black: #0a0a0a;
+            --charcoal: #1a1a1a;
+            --grey: #2e2e2e;
+            --white: #f0f0f0;
+            --red: #c0001a;
+            --silver: #9a9a9a;
+        }
+
+        body {
+            background: var(--black);
+            color: var(--white);
+            font-family: 'Barlow', sans-serif;
+            min-height: 100vh;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background: rgba(10, 10, 10, 0.95);
+            border-bottom: 1px solid var(--grey);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.8rem;
+            letter-spacing: 0.2em;
+            color: var(--white);
+            text-decoration: none;
+        }
+
+        .nav-logo span {
+            color: var(--red);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--silver);
+            text-decoration: none;
+            font-size: 0.78rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--white);
+        }
+
+        .nav-links a.active {
+            color: var(--white);
+            border-bottom: 2px solid var(--red);
+            padding-bottom: 2px;
+        }
+
+        .page-header {
+            padding: 60px 40px 30px;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            letter-spacing: 0.15em;
+            line-height: 1;
+        }
+
+        .page-header h1 span {
+            color: var(--red);
+        }
+
+        .page-header p {
+            color: var(--silver);
+            font-size: 0.82rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            margin-top: 10px;
+        }
+
+        .header-line {
+            width: 60px;
+            height: 2px;
+            background: var(--red);
+            margin: 16px auto 0;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--silver);
+            text-decoration: none;
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            font-weight: 600;
+            padding: 0 40px;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: var(--white);
+        }
+
+        .section-divider {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px 40px;
+            margin-top: 20px;
+        }
+
+        .section-divider::before,
+        .section-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--grey);
+        }
+
+        .section-divider span {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 0.85rem;
+            letter-spacing: 0.3em;
+            color: var(--red);
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2px;
+            padding: 20px 20px 60px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .product-card {
+            background: var(--charcoal);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .product-card:hover .card-overlay {
+            opacity: 1;
+        }
+
+        .product-card:hover .card-img {
+            transform: scale(1.03);
+        }
+
+        .card-img-wrap {
+            width: 100%;
+            aspect-ratio: 3/4;
+            overflow: hidden;
+            background: var(--black);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: transform 0.4s ease;
+        }
+
+        .card-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(192, 0, 26, 0.1);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .card-info {
+            padding: 16px 18px 20px;
+            border-top: 1px solid var(--grey);
+        }
+
+        .card-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.15rem;
+            letter-spacing: 0.12em;
+            color: var(--white);
+        }
+
+        .card-desc {
+            font-size: 0.75rem;
+            color: var(--silver);
+            margin-top: 4px;
+        }
+
+        .card-price {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.3rem;
+            color: var(--red);
+            margin-top: 10px;
+            letter-spacing: 0.1em;
+        }
+
+        .card-btn {
+            display: block;
+            width: 100%;
+            margin-top: 14px;
+            padding: 11px;
+            background: transparent;
+            border: 1px solid var(--grey);
+            color: var(--silver);
+            font-family: 'Barlow', sans-serif;
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s, border-color 0.2s;
+        }
+
+        .card-btn:hover {
+            background: var(--red);
+            color: var(--white);
+            border-color: var(--red);
+        }
+
+        @media (max-width: 600px) {
+            nav {
+                padding: 16px 20px;
+            }
+
+            .nav-links {
+                gap: 16px;
+            }
+
+            .page-header {
+                padding: 40px 20px 20px;
+            }
+
+            .product-grid {
+                padding: 16px 10px 50px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <a href="degama.html" class="nav-logo">DEGAMA <span>33</span></a>
+        <ul class="nav-links">
+            <li><a href="Tshirts.html">T-Shirts</a></li>
+            <li><a href="hoodies.html">Hoodies</a></li>
+            <li><a href="Beaniesandcaps.html" class="active">Beanies/Caps</a></li>
+            <li><a href="gallery.html">Gallery</a></li>
+        </ul>
+    </nav>
+
+    <a href="home.html" class="back-link">← Back to Home</a>
+
+    <!-- ========== BEANIES ========== -->
+    <div class="page-header">
+        <h1>Bean<span>ies</span></h1>
+        <p>Degama 33 Collection</p>
+        <div class="header-line"></div>
+    </div>
+    <div class="product-grid">
+
+        <!-- ======= BEANIE 1 ======= -->
+        <div class="product-card">
+            <div class="card-img-wrap">
+                <img class="card-img" src="c:\Users\MORONGWA\OneDrive\33\WhatsApp Image 2026-06-13 at 01.10.39.jpeg"
+                    alt="Degama Classic Beanie" />
+                <!-- ↑ REPLACE YOUR-IMAGE-HERE.jpg with your photo e.g. src="beanie1.jpg" -->
+            </div>
+            <div class="card-overlay"></div>
+            <div class="card-info">
+                <div class="card-name">Degama Classic Beanie</div>
+                <div class="card-desc">One Size Fits All</div>
+                <div class="card-price">R150</div>
+                <!-- ↑ REPLACE ___ with your price -->
+                <button class="card-btn">Enquire via WhatsApp</button>
+            </div>
+        </div>
+
+        <!-- ======= BEANIE 2 ======= -->
+        <div class="product-card">
+            <div class="card-img-wrap">
+                <img class="card-img" src="c:\Users\MORONGWA\OneDrive\33\WhatsApp Image 2026-06-13 at 01.11.jpeg"
+                    alt="Degama 33 Beanie" />
+            </div>
+            <div class="card-overlay"></div>
+            <div class="card-info">
+                <div class="card-name">Degama 33 Beanie</div>
+                <div class="card-desc">One Size Fits All</div>
+                <div class="card-price">R150</div>
+                <button class="card-btn">Enquire via WhatsApp</button>
+            </div>
+        </div>
+
+        <!-- ======= BEANIE 3 ======= -->
+        <div class="product-card">
+            <div class="card-img-wrap">
+                <img class="card-img" src="c:\Users\MORONGWA\OneDrive\33\WhatsApp Image 2026-06-13 at 01.12.jpeg"
+                    alt="Degama Street Beanie" />
+            </div>
+            <div class="card-overlay"></div>
+            <div class="card-info">
+                <div class="card-name">Degama Street Beanie</div>
+                <div class="card-desc">One Size Fits All</div>
+                <div class="card-price">R 150</div>
+                <button class="card-btn">Enquire via WhatsApp</button>
+            </div>
+        </div>
+
+        <!-- ======= BEANIE 4 ======= -->
+        <div class="product-card">
+            <div class="card-img-wrap">
+                <img class="card-img" src="c:\Users\MORONGWA\OneDrive\33\WhatsApp Image 2026-06-13 at 01.13.jpeg"
+                    alt="Degama Ribbed Beanie" />
+            </div>
+            <div class="card-overlay"></div>
+            <div class="card-info">
+                <div class="card-name">Degama Ribbed Beanie</div>
+                <div class="card-desc">One Size Fits All</div>
+                <div class="card-price">R 150</div>
+                <button class="card-btn">Enquire via WhatsApp</button>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="section-divider"><span>Caps</span></div>
+
+    <!-- ========== CAPS ========== -->
+    <div class="page-header">
+        <h1>Ca<span>ps</span></h1>
+        <p>Degama 33 Collection</p>
+        <div class="header-line"></div>
+    </div>
+    <div class="product-grid">
+
+        <!-- ======= CAP 1 ======= -->
+        <div class="product-card">
+            <div class="card-img-wrap">
+                <img class="card-img" src="c:\Users\MORONGWA\OneDrive\33\WhatsApp Image 2026-06-13 at 01.16.jpeg"
+                    alt="Degama Snapback" />
+                <!-- ↑ REPLACE YOUR-IMAGE-HERE.jpg with your photo e.g. src="cap1.jpg" -->
+            </div>
+            <div class="card-overlay"></div>
+            <div class="card-info">
+                <div class="card-name">Degama Snapback</div>
+                <div class="card-desc">One Size · Adjustable</div>
+                <div class="card-price">R 200</div>
+                <button class="card-btn">Enquire via WhatsApp</button>
+            </div>
+        </div>
+
+        <!-- ======= CAP 2 ======= -->
+        <div class="product-card">
+            <div class="card-img-wrap">
+                <img class="card-img" src="c:\Users\MORONGWA\OneDrive\33\WhatsApp Image 2026-06-13 at 01.21.jpeg"
+                    alt="Degama Dad Cap" />
+            </div>
+            <div class="card-overlay"></div>
+            <div class="card-info">
+                <div class="card-name">Degama Dad Cap</div>
+                <div class="card-desc">One Size · Adjustable</div>
+                <div class="card-price">R 200</div>
+                <button class="card-btn">Enquire via WhatsApp</button>
+            </div>
+        </div>
+
+        <!-- ======= CAP 3 ======= -->
+        <div class="product-card">
+            <div class="card-img-wrap">
+                <img class="card-img" src="c:\Users\MORONGWA\OneDrive\33\caps1.jpeg" alt="Degama 33 Cap" />
+            </div>
+            <div class="card-overlay"></div>
+            <div class="card-info">
+                <div class="card-name">Degama 33 Cap</div>
+                <div class="card-desc">One Size · Adjustable</div>
+                <div class="card-price">R 200</div>
+                <button class="card-btn">Enquire via WhatsApp</button>
+            </div>
+        </div>
+
+        <!-- ======= CAP 4 ======= -->
+        <div class="product-card">
+            <div class="card-img-wrap">
+                <img class="card-img" src="c:\Users\MORONGWA\OneDrive\33\caps2.jpeg" alt="Degama Fitted Cap" />
+            </div>
+            <div class="card-overlay"></div>
+            <div class="card-info">
+                <div class="card-name">Degama Fitted Cap</div>
+                <div class="card-desc">One Size · Adjustable</div>
+                <div class="card-price">R 200</div>
+                <button class="card-btn">Enquire via WhatsApp</button>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>
